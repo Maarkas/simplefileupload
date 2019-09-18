@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('upload', 'UploadController',
+    ['only' => ['index', 'store', 'show']]);

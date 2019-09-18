@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Upload;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class UploadRepository
@@ -10,45 +12,50 @@ use App\Upload;
  */
 class UploadRepository implements UploadRepositoryInterface
 {
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Upload();
+    }
+
     /**
-     * Gets a single upload by its ID.
+     * Gets a single upload.
      *
-     * @param int
-     * @return collection
+     * @param Upload $upload_id
+     * @return mixed
      */
     public function get($upload_id)
     {
-        return Upload::find($upload_id);
+        return $this->model->find($upload_id);
     }
 
     /**
-     * Gets all uploaded files.
+     * Gets all uploaded files and paginate them by specified number.
      *
+     * @param int $pagination - The number of pages per paginated data quantity
      * @return mixed
      */
-    public function all()
+    public function all($pagination = 9)
     {
-        return Upload::all();
+        return $this->model->simplePaginate($pagination)->all();
     }
 
-    /**
-     * Deletes an uploaded file.
-     *
-     * @param int
-     */
-    public function delete($upload_id)
+    public function store($title, $file)
     {
-        Upload::destroy($upload_id);
-    }
+        if (!$title && !$file && !$file->isValid()) {
+            return null;
+        }
 
-    /**
-     * Updates an uploaded file.
-     *
-     * @param int
-     * @param array
-     */
-    public function update($upload_id, array $file_data)
-    {
-        Upload::find($upload_id)->update($file_data);
+        $filesize = $file->getSize();
+        $file->move(public_path().'/uploads/', $title . '.' . $file->getClientOriginalExtension());
+
+        return $this->model->create([
+            'title' => $title,
+            'filename' => $file->getClientOriginalName(),
+            'extension' => $file->getClientOriginalExtension(),
+            'path' => $file->getPath(),
+            'filesize' => $filesize
+        ]);
     }
 }

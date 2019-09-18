@@ -23,17 +23,11 @@ interface UploadRepositoryInterface
     public function get($upload_id);
 
     /**
-     * Deletes an uploaded file.
+     * Stores files.
      *
-     * @param int
+     * @param $title
+     * @param $files
+     * @return mixed
      */
-    public function delete($upload_id);
-
-    /**
-     * Updates an uploaded file.
-     *
-     * @param int
-     * @param array
-     */
-    public function update($upload_id, array $file_data);
+    public function store($title, $files);
 }

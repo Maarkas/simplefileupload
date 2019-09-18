@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Providers;
 
+use App\Repositories\UploadRepository;
+use App\Repositories\UploadRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 /**

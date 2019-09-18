@@ -38,7 +38,7 @@ class UploadRepository implements UploadRepositoryInterface
      */
     public function all($pagination = 9)
     {
-        return $this->model->simplePaginate($pagination)->all();
+        return $this->model->paginate($pagination);
     }
 
     public function store($title, $file)
@@ -48,13 +48,16 @@ class UploadRepository implements UploadRepositoryInterface
         }
 
         $filesize = $file->getSize();
-        $file->move(public_path().'/uploads/', $title . '.' . $file->getClientOriginalExtension());
+        $folderPath = public_path().'/uploads/';
+        $fileName = $title . '.' . $file->getClientOriginalExtension();
+
+        $file->move($folderPath, $fileName);
 
         return $this->model->create([
             'title' => $title,
-            'filename' => $file->getClientOriginalName(),
+            'filename' => $fileName,
             'extension' => $file->getClientOriginalExtension(),
-            'path' => $file->getPath(),
+            'path' => $folderPath . $fileName,
             'filesize' => $filesize
         ]);
     }

@@ -13,7 +13,11 @@
                 @forelse ($uploads as $upload)
                     <div class="col-sm-6 col-lg-4">
                         <div class="card">
-
+                            <img class="card-img-top" src="{{ asset('uploads/' . $upload->filename) }}">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $upload->title }}</h4>
+                                <a class="btn btn-info" href="{{ route('upload.show', ['upload' => $upload]) }}">View</a>
+                            </div>
                         </div>
                     </div>
                 @empty

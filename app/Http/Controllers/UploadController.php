@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UploadFileRequest;
 use App\Repositories\UploadRepositoryInterface;
 use App\Upload;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 /**
  * Class UploadController
@@ -29,7 +31,7 @@ class UploadController extends Controller
     /**
      * Index page of uploads, passing all uploads stored.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function index() {
         $uploads = $this->repository->all();

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="row">
+    <div class="row" style="margin-top: 50px">
         <div class="col-md-12">
             <h1>Simple File Upload</h1>
         </div>
@@ -11,14 +11,15 @@
         <div class="col-md-12">
             <div class="row">
                 @forelse ($uploads as $upload)
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card">
-                            <img class="card-img-top" src="{{ asset('uploads/' . $upload->filename) }}">
-                            <div class="card-body">
-                                <h4 class="card-title">{{ $upload->title }}</h4>
-                                <a class="btn btn-info" href="{{ route('upload.show', ['upload' => $upload]) }}">View</a>
+                    <div class="col-sm-6 col-lg-4" style="margin-bottom: 15px">
+                        <a href="{{ route('upload.show', ['upload' => $upload]) }}">
+                            <div class="card">
+                                <img class="card-img-top" src="{{ asset('uploads/' . $upload->filename) }}">
+                                <div class="card-body">
+                                    <h4 class="card-title text-center">{{ $upload->title }}</h4>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 @empty
                     <div class="col-md-12">
